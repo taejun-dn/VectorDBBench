@@ -2022,6 +2022,53 @@ AWSOpenSearchPerformanceConfig = [
     CaseConfigParamInput_INDEX_THREAD_QTY_DURING_FORCE_MERGE_AWSOpensearch,
 ]
 
+
+CaseConfigParamInput_IndexType_DnMilvus = CaseConfigInput(
+    label=CaseConfigParamType.IndexType,
+    inputType=InputType.Option,
+    inputConfig={
+        "options": [
+            IndexType.VDPU_HNSW.value,
+        ],
+    },
+)
+
+CaseConfigParamInput_M_DnMilvus = CaseConfigInput(
+    label=CaseConfigParamType.M,
+    inputType=InputType.Number,
+    inputConfig={
+        "min": 4,
+        "max": 64,
+        "value": 16,
+    },
+    isDisplayed=lambda config: config.get(CaseConfigParamType.IndexType, None)
+    in [
+        IndexType.VDPU_HNSW.value,
+    ],
+)
+
+CaseConfigParamInput_EFConstruction_DnMilvus = CaseConfigInput(
+    label=CaseConfigParamType.EFConstruction,
+    inputType=InputType.Number,
+    inputConfig={
+        "min": 8,
+        "max": 512,
+        "value": 256,
+    },
+    isDisplayed=lambda config: config[CaseConfigParamType.IndexType]
+    in [
+        IndexType.VDPU_HNSW.value,
+    ],
+)
+
+DnMilvusLoadConfig = [
+    CaseConfigParamInput_IndexType_DnMilvus,
+    CaseConfigParamInput_M_DnMilvus,
+    CaseConfigParamInput_EFConstruction_DnMilvus,
+]
+
+DnMilvusPerformanceConfig = DnMilvusLoadConfig
+
 # Map DB to config
 CASE_CONFIG_MAP = {
     DB.Milvus: {
@@ -2092,6 +2139,10 @@ CASE_CONFIG_MAP = {
         CaseLabel.Load: LanceDBLoadConfig,
         CaseLabel.Performance: LanceDBPerformanceConfig,
     },
+    DB.DnMilvus: {
+        CaseLabel.Load: DnMilvusLoadConfig,
+        CaseLabel.Performance: DnMilvusPerformanceConfig,
+    }
 }
 
 

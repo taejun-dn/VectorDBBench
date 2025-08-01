@@ -10,7 +10,7 @@ from pymilvus import Collection, CollectionSchema, DataType, FieldSchema, Milvus
 from vectordb_bench.backend.filter import Filter, FilterOp
 
 from ..api import VectorDB
-from .config import MilvusIndexConfig
+from .config import DnMilvusIndexConfig
 
 log = logging.getLogger(__name__)
 
@@ -28,7 +28,7 @@ class DnMilvus(VectorDB):
         self,
         dim: int,
         db_config: dict,
-        db_case_config: MilvusIndexConfig,
+        db_case_config: DnMilvusIndexConfig,
         collection_name: str = "VDBBench",
         drop_old: bool = False,
         name: str = "DnMilvus",

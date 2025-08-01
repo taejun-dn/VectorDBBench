@@ -41,6 +41,7 @@ class IndexType(str, Enum):
     GPU_CAGRA = "GPU_CAGRA"
     SCANN = "scann"
     NONE = "NONE"
+    VDPU_HNSW = "VDPU_HNSW"
 
 
 class SQType(str, Enum):
